@@ -4,6 +4,7 @@ pipeline {
     environment {
         APP_NAME = "pipeline-practice"
         ENVIRONMENT = "dev"
+        SECRET_VALUE = credentials('demo-secret')
     }
 
     stages {
@@ -14,29 +15,13 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Secure Step') {
             steps {
                 sh '''
-                  echo "Building $APP_NAME"
-                  echo "Running in $ENVIRONMENT environment"
-                  date
+                  echo "Using secret securely"
+                  echo "Secret is masked in logs"
                 '''
             }
-        }
-
-        stage('Test') {
-            steps {
-                sh '''
-                  echo "Testing $APP_NAME"
-                  echo "All tests passed"
-                '''
-            }
-        }
-    }
-
-    post {
-        success {
-            echo "Pipeline completed successfully"
         }
     }
 }
