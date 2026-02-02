@@ -1,19 +1,24 @@
 pipeline {
     agent any
 
+    environment {
+        APP_NAME = "pipeline-practice"
+        ENVIRONMENT = "dev"
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Info') {
             steps {
-                echo 'Checkout stage completed'
+                echo "Application: ${APP_NAME}"
+                echo "Environment: ${ENVIRONMENT}"
             }
         }
 
         stage('Build') {
             steps {
                 sh '''
-                  echo "Build started"
-                  echo "Project: Jenkins Pipeline Practice"
-                  uname -a
+                  echo "Building $APP_NAME"
+                  echo "Running in $ENVIRONMENT environment"
                   date
                 '''
             }
@@ -22,8 +27,8 @@ pipeline {
         stage('Test') {
             steps {
                 sh '''
-                  echo "Running basic test"
-                  echo "Test passed"
+                  echo "Testing $APP_NAME"
+                  echo "All tests passed"
                 '''
             }
         }
@@ -31,10 +36,7 @@ pipeline {
 
     post {
         success {
-            echo 'Practice pipeline SUCCESS 🎉'
-        }
-        failure {
-            echo 'Practice pipeline FAILED ❌'
+            echo "Pipeline completed successfully"
         }
     }
 }
